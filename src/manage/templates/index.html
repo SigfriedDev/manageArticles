@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Página de inicio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Articles</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="article/create">Agregar artículo</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="contenedor">
+    <h1>Bienvenido</h1>
+    <p>Bienvenido a esta página web donde podrás agregar artículos.</p>
+
+    {% for article in articles %}
+    <div class="card">
+      <div class="card-header">
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.publishDate }}</p>
+      </div>
+      <div class="card-body">
+        <p>{{ article.text }}</p>
+      </div>
+      <div class="card-footer">
+        <ul>
+          {% for category in article.categories %}
+            <li>{{ category.name }}</li>
+          {% endfor %}
+        </ul>
+        <form action="{{ url_for('Article.delete', id=article.id) }}" method="POST" class="delete-form">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="delete-button" onclick="return confirm('¿Está seguro de que desea borrar este artículo?')">Borrar</button>
+        </form>
+        <div class="delete-modal modal">
+          <div class="modal-content">
+            <h3>Artículo borrado exitosamente</h3>
+            <button class="delete-ok-button">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <footer>
+    <script>
+      // Agregar un evento de submit a todos los formularios de borrado
+      const deleteForms = document.querySelectorAll(".delete-form");
+      deleteForms.forEach(form => {
+        form.addEventListener("submit", function(event) {
+          event.preventDefault(); // Evitar que se envíe el formulario automáticamente
+    
+          // Enviar la petición de borrado con Fetch API
+          fetch(this.action, {
+            method: "POST",
+            body: new FormData(this)
+          })
+          .then(response => {
+            if (response.ok) {
+              // Mostrar el modal de borrado exitoso y recargar la página después de que se confirme
+              const deleteModal = this.parentNode.querySelector(".delete-modal");
+              deleteModal.style.display = "block";
+              const deleteOkButton = deleteModal.querySelector(".delete-ok-button");
+              deleteOkButton.addEventListener("click", () => {
+                location.reload();
+              });
+            } else {
+              throw new Error("La petición de borrado falló");
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            alert("Hubo un error al borrar el artículo");
+          });
+        });
+      });
+    </script>
+      <p>Derechos reservados &copy; 2023</p>
+  </footer>
+</body>
+</html>

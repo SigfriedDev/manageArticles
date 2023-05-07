@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Artículo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+  
+</head>
+<body>
+<div id="error-modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+  </div>
+</div>
+<div id="success-modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Artículo agregado con éxito.</p>
+  </div>
+</div>
+  <header>
+    <div class="logo">
+      <h1>Create Article</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/">Inicio</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="contenedor">
+    <h1>Agregar Artículo</h1>
+    <form action="" method="POST">
+      <label for="title">Título:</label>
+      <br>
+      <input type="text" id="title" name="title" required>
+      <br><br>
+      <label for="text">Texto:</label>
+      <br>
+      <textarea id="text" name="text" required></textarea>
+      <br><br>
+      <label for="author">Autor:</label>
+      <br>
+      <input type="text" id="author" name="author" required>
+      <br><br>
+      <label for="publishDate">Fecha de Publicación:</label>
+      <br>
+      <input type="date" id="publishDate" name="publishDate" required>
+      <br><br>
+      <br>
+      <label for="categories">Categorías:</label>
+      <button type="button" onclick="showCategories()">Agregar Categoría</button>
+      <div id="category-options" style="display:none;">
+        {% for category in categories %}
+        <label><input type="checkbox" name="categories[]" value="{{ category.id }}"> {{ category.name }}</label>
+        <br>
+        {% endfor %}
+      </div>
+      <br>
+      <br>
+      <br>
+      <input type="submit" value="Agregar Artículo" class="boton">
+    </form>
+  </div>
+  <footer>
+    <script>
+      function showCategories() {
+        var categoryOptions = document.getElementById("category-options");
+        if (categoryOptions.style.display === "none") {
+          categoryOptions.style.display = "block";
+        } else {
+          categoryOptions.style.display = "none";
+        }
+      }
+      var closeBtn = document.querySelector(".close");
+      var modal = document.getElementById("error-modal");
+
+      // Cierra el modal al hacer clic en la "X"
+      closeBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+      });
+
+      // Cierra el modal al hacer clic fuera del contenido del modal
+      window.addEventListener("click", function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+      function handleSuccess() {
+        var modal = document.getElementById("success-modal");
+        modal.style.display = "block"; // Mostrar el modal de éxito
+        setTimeout(function() {
+          modal.style.display = "none"; // Ocultar el modal de éxito después de unos segundos
+          // window.location.href = '/'; // Redirigir al usuario a la página de inicio
+        }, 3000);
+      }
+
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        fetch(event.target.action, {
+          method: event.target.method,
+          body: new FormData(event.target),
+        })
+        .then(function (response) {
+          if (response.status === 404 || response.status === 402) {
+            return response.json(); // Obtener la respuesta como objeto JSON
+          } else{
+            handleSuccess(); // Mostrar el modal de éxito y redirigir al usuario
+          }
+        })
+        .then(function (data) {
+          var modal = document.getElementById("error-modal");
+          var content = document.createElement("p"); // Crear elemento HTML
+          var errors = data.errors;
+          if (typeof errors === 'string') {
+            errors = errors.split('\n'); // Convertir string a lista de errores
+          }
+          if (errors && errors.length > 0) { // Verificar si hay errores
+            modal.querySelector(".modal-content").innerHTML = ""; // Vaciar contenido del modal
+            for (var i = 0; i < errors.length; i++) {
+              var errorMessage = document.createTextNode(errors[i]); // Crear nodo de texto con el error
+              content.appendChild(errorMessage); // Agregar el nodo de texto al contenido del modal
+              content.appendChild(document.createElement("br")); // Agregar un salto de línea
+            }
+            modal.querySelector(".modal-content").appendChild(content); // Agregar el contenido al modal
+            modal.style.display = "block"; // Mostrar el modal con los errores
+          }
+        });
+      }
+      document.querySelector('form').addEventListener('submit', handleSubmit);
+    </script>
+    <p>Derechos Reservados &copy; 2023</p>
+  </footer>
+</body>
+</html>

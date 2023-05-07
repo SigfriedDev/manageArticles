@@ -1,0 +1,225 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #F7F7F7;
+  color: #333;
+}
+
+.article {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.article h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.article p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.article ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.article ul li {
+  display: inline-block;
+  background-color: #ddd;
+  border-radius: 5px;
+  color: #444;
+  font-size: 14px;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+
+header {
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.logo h1 {
+  font-size: 2rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 2rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.contenedor {
+  margin-top: 5rem;
+  max-width: 800px;
+  margin: 5rem auto;
+  text-align: center;
+}
+
+.contenedor h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.contenedor p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.boton {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.2s ease-in-out;
+}
+
+.boton:hover {
+  background-color: #555;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 2rem;
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.5); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.card {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #ccc;
+  position: relative;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.card-header p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.card-body p {
+  margin: 10px 0;
+}
+
+.card-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-footer li {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 20px;
+  color: #666;
+}
+
+
+#category-options.hidden {
+  display: none;
+}
+.category-checkboxes label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.delete-button {
+  background: linear-gradient(to bottom, #ff0000, #cc0000);
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  position: absolute; 
+  bottom: 10px; /* ajusta la posición inferior */
+  right: 10px; /* ajusta la posición derecha */
+}
+
+.delete-button:hover {
+  background: linear-gradient(to bottom, #cc0000, #ff0000);
+}
