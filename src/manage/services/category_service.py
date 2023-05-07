@@ -30,11 +30,15 @@ class CategoryService:
         return response
 
     def getAll() -> getAllCategoryOutputSchema:
+        response: getAllCategoryOutputSchema = {}
+        response["success"] = True
+        response["message"] = "Success to get all Categories"
+        response["payload"] = []
 
         categories : Categories = Categories.find()
 
         if not categories:
-            CategoriesError.notFound()
+            response
 
         arrayCategories: list[allCategorySchema] = []
 
@@ -45,12 +49,10 @@ class CategoryService:
          
             arrayCategories.append(newCategory)
 
-        response: getAllCategoryOutputSchema = {}
-        response["success"] = True
-        response["message"] = "Success to get all Categories"
-        response["payload"] = arrayCategories
-
+        if arrayCategories != []:
+            response["payload"] = arrayCategories
         return response
+
 
     def allCategoriesArticles(allArticlesList):
 
